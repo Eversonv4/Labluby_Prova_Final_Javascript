@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prova Final Javascript</title>
+  <link rel="stylesheet" type="text/css" href="/src/assets/css/header.css" />
+  <link rel="stylesheet" type="text/css" href="/src/assets/css/main.css" />
+  <link rel="stylesheet" type="text/css" href="/src/assets/css/footer.css" />
+  <link rel="stylesheet" type="text/css" href="/src/assets/icons/style.css" />
+</head>
+
+<body>
+  <!-- header -->
+  <section class="sections_align">
+    <header>
+      <nav>
+        <ul>
+          <li class="TGL_italic">
+            TGL
+            <div class="div_border"></div>
+          </li>
+          <li>Home</li>
+        </ul>
+        <ul>
+          <li>Account</li>
+          <li class="title_logout">
+            Log out
+            <span class="icon-arrow-right"></span>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  </section>
+
+  <!-- main -->
+  <section class="sections_align">
+    <main>
+      <article>
+        <h1>NEW BET <span data-js="main_title_bet" class="title_type_bet"></span></h1>
+    
+        <h2 class="title_choose_game">Choose a game</h2>
+      
+        <div data-js="bets_type" class="container_buttons_bets_types"></div>
+      
+        <h2 class="title_fill_bet">Fill your bet</h2>
+        <h3 class="description_bet"></h3>
+      
+        <div data-js="numbers_selections" class="container_numbers_buttons"></div>
+      
+        <div data-js="" class="container_btn_game_default">
+          <button data-js="btn_complete_game" class="btn_game_default">Complete game</button>
+          <button data-js="btn_clear_game" class="btn_game_default">Clear game</button>
+          <button data-js="btn_add_cart" class="btn_game_default">
+            <span class="icon-shopping-cart"></span>
+            Add to cart
+          </button>
+        </div>
+      </article>
+    
+      <aside>
+        <article>
+          <h2 class="title_cart title_cart_align">CART</h2>
+  
+          <section class="container_cards_bets"></section>
+  
+          <section class="container_amount_bets">
+            <h2 class="title_cart title_cart_inline">CART</h2>
+            <h3 class="amount_cost_bet">
+              TOTAL R$
+              <span data-js="amount_total_cost"> 0,00</span>
+            </h3>
+          </section>
+  
+          <section class="container_save_bet">
+            <h2 data-js="save_action" class="title_save_bet">
+              Save
+              <span class="icon-arrow-right"></span>
+            </h2>
+          </section>
+        </article>
+      </aside>
+
+    </main>
+  </section>
+
+  <!-- A footer. -->
+  <section class="sections_align">
+    <footer>
+      <h3 class="footer_main_title">Copyright 2020 Luby Software</h3>
+    </footer>
+  </section>
+
+  <script src="src/assets/javascript/gameLottery.js"></script>
+</body>
+</html>

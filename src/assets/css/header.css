@@ -1,0 +1,57 @@
+header {
+  width: 1040px;
+  font-family: "helvetica_bold_italic";
+  font-style: italic;
+  font-weight: bold;
+  color: #707070;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+nav {
+  height: 76px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+nav ul li{
+  cursor: pointer;
+}
+
+nav ul li:last-child {
+  margin-left: 74px;
+}
+
+.TGL_italic {
+  font-size: 44px;
+  line-height: 48px;
+  margin-top: 0px;
+}
+
+.div_border {
+  height: 7px;
+  width: 100%;
+  background: #B5C401;
+  border-radius: 5px;
+  margin-bottom: -20px;
+  margin-top: 10px;
+}
+
+.icon-arrow-right {
+  color: #707070;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.title_logout {
+  display: flex;
+  align-items: flex-end;
+}
