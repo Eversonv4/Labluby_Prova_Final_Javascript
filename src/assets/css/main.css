@@ -157,7 +157,7 @@ main .container_btn_game_default {
 }
 
 main .btn_game_default {
-  background-color: var(--btn-bg-color);
+  background-color: #f7f7f7;
   border: 1px solid var(--btn-hover-bg-color);
   border-radius: 10px;
   color: var(--btn-hover-bg-color);
