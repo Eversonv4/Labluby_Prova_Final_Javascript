@@ -128,7 +128,7 @@ btnCompleteGame.onclick = function() {
 
   for(let counter = 0; anotherVar.length < maxBet; counter++ ) {
     randomNumber = Math.random() * (allNumbersBet - 1) + 1;
-    randomNumber = Math.round(randomNumber)
+    randomNumber = Math.round(randomNumber);
     
     isTrue = anotherVar.every(function(item){
       return item !== ` ${randomNumber}`
