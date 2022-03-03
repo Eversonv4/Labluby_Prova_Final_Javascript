@@ -28,7 +28,8 @@ let saveLottery = document.querySelector('[data-js="save_action"]');
 
 
 let contentOnButtonNumber;
-var numbersSelected = [];
+let numbersSelected = [];
+let anotherVar;
 let totalAmountBets = [];
 let verificationTrue;
 let rangeBetType;
@@ -40,79 +41,106 @@ let indexRemovedFromBet;
 let betType = [];
 let betContent;
 function showBets() {
-  for(let i = 0; i < json.types.length; i++) {
-    betType[i] = document.createElement("button")
-    betContent = document.createTextNode(`${json.types[i].type}`)
-    betType[i].appendChild(betContent)
-    bets_type.appendChild(betType[i])
+  for(let listBetType = 0; listBetType < json.types.length; listBetType++) {
+    betType[listBetType] = document.createElement("button")
+    betContent = document.createTextNode(`${json.types[listBetType].type}`)
+    betType[listBetType].appendChild(betContent)
+    bets_type.appendChild(betType[listBetType])
   
-    betType[i].style.borderColor = json.types[i].color;
-    betType[i].style.color = json.types[i].color;
+    betType[listBetType].style.borderColor = json.types[listBetType].color;
+    betType[listBetType].style.color = json.types[listBetType].color;
     
-    betType[i].onclick = () => startLottery(i)
+    betType[listBetType].onclick = () => startLottery(listBetType)
   }
 }
 
-function startLottery(i) {
-  title_bet.innerHTML = ` FOR ${(json.types[i].type).toUpperCase()}`;
+function startLottery(numberBetType) {
+  title_bet.innerHTML = ` FOR ${(json.types[numberBetType].type).toUpperCase()}`;
   betType[whichBetNum].style.backgroundColor = "#fff";
   betType[whichBetNum].style.color = json.types[whichBetNum].color;
-  betType[i].style.backgroundColor = json.types[i].color;
-  betType[i].style.color = "#fff";
+  betType[numberBetType].style.backgroundColor = json.types[numberBetType].color;
+  betType[numberBetType].style.color = "#fff";
   
   while(numbersSelections.firstChild) {
     numbersSelections.removeChild(numbersSelections.firstChild)
   }
 
-  descriptionBet.innerHTML = json.types[i].description;
-  numbersSelected = []
-  rangeBetType = i;
-  allNumbersBet = json.types[i].range;
+  descriptionBet.innerHTML = json.types[numberBetType].description;
+  numbersSelected = [];
+  rangeBetType = numberBetType;
+  allNumbersBet = json.types[numberBetType].range;
 
-  for(let j = 1; j <= json.types[i].range; j++) {
-    buttonsNumber[j] = document.createElement("button")
-    contentOnButtonNumber = document.createTextNode(`${j}`)
-    buttonsNumber[j].appendChild(contentOnButtonNumber)
-    numbersSelections.appendChild(buttonsNumber[j])
-    buttonsNumber[j].onclick = () => numberFilter(j, i);
+  for(let indexButtonNumber = 1; indexButtonNumber <= json.types[numberBetType].range; indexButtonNumber++) {
+    buttonsNumber[indexButtonNumber] = document.createElement("button")
+    contentOnButtonNumber = document.createTextNode(`${indexButtonNumber}`)
+    buttonsNumber[indexButtonNumber].appendChild(contentOnButtonNumber)
+    numbersSelections.appendChild(buttonsNumber[indexButtonNumber])
+    buttonsNumber[indexButtonNumber].onclick = () => numberFilter(indexButtonNumber, numberBetType);
   }
 
-  whichBetNum = i
+  
+
+  whichBetNum = numberBetType
   return whichBetNum
 }
 
 let buttonsNumber = []
-function numberFilter(i, range) {
+function numberFilter(choosedNumber, numberBetType) {
   verificationTrue = numbersSelected.some(function(item){
-    return item === ` ${i}`
+    return item === ` ${choosedNumber}`
   })
   if(verificationTrue) {
-    buttonsNumber[i].style.backgroundColor = "#ADC0C4";
-    indexRemovedFromBet = numbersSelected.indexOf(` ${buttonsNumber[i].innerHTML}`)
+    buttonsNumber[choosedNumber].style.backgroundColor = "#ADC0C4";
+    indexRemovedFromBet = numbersSelected.indexOf(` ${buttonsNumber[choosedNumber].innerHTML}`)
     numbersSelected.splice(indexRemovedFromBet, 1);
   }
 
-  addNumbers(i, range)
+  isFullBet()
+
+  addNumbers(choosedNumber, numberBetType)
   return verificationTrue
 }
 
-function addNumbers(i, range) {
+function addNumbers(choosedNumber, range) {
   if(!verificationTrue) {
     if(numbersSelected.length < json.types[range]["max-number"]) {
-        numbersSelected.push(` ${i}`)
-        buttonsNumber[i].style.backgroundColor = json.types[range].color;
+      numbersSelected.push(` ${choosedNumber}`)
+      buttonsNumber[choosedNumber].style.backgroundColor = json.types[range].color;
+      
     }
+  }
+  return numbersSelected;
+}
+
+function isFullBet() {
+  if(numbersSelected.length == json.types[whichBetNum]["max-number"]) {
+    alert("Você já selecionou a quantidade máxima de valores para sua aposta.")
+    updateList()
   }
 }
 
 btnCompleteGame.onclick = function() {
+  anotherVar = numbersSelected;
   startLottery(whichBetNum);
   let maxBet = json.types[rangeBetType]["max-number"]
-  let randomNumber
-  for(let counter = 0; numbersSelected.length < maxBet; counter++ ) {
+  let randomNumber;
+  var isTrue;
+
+  for(let counter = 0; anotherVar.length < maxBet; counter++ ) {
     randomNumber = Math.random() * (allNumbersBet - 1) + 1;
-    numberFilter(Math.round(randomNumber), rangeBetType)
+    randomNumber = Math.round(randomNumber);
+    
+    isTrue = anotherVar.every(function(item){
+      return item !== ` ${randomNumber}`
+    })
+    if(isTrue) {
+      anotherVar.push(` ${randomNumber}`)
+    }
   }
+
+  anotherVar.forEach(function(item){
+    numberFilter(Number(item), rangeBetType);
+  })
 }
 
 btnClearGame.onclick = function() {
@@ -128,7 +156,9 @@ btnAddToCart.onclick = function() {
   let priceBet = (json.types[rangeBetType].price).toFixed(2)
   
   if(numbersSelected.length !== lengthBet) {
-    alert("Tá faltando número")
+    const numbersLeft = json.types[rangeBetType]["max-number"] - numbersSelected.length
+    const plu_singular = numbersLeft > 1 ? "números" : "número";
+    alert(`Falta escolher mais ${numbersLeft} ${plu_singular}`)
     return
   }
 
@@ -161,6 +191,7 @@ btnAddToCart.onclick = function() {
   updateList()
   numbersSelected = [];
   startLottery(whichBetNum);
+  anotherVar = []
 }
 
 saveLottery.onclick = function() {
@@ -179,6 +210,9 @@ function updateList() {
   totalAmountBets.forEach(function(item){
     containerListBets.innerHTML += `\n ${item}`;
   })
+  if(containerListBets.children.length === 0) {
+    containerListBets.innerHTML = `<h3 class="text_empty_cart">( Empty Cart )</h3>`;
+  }
 }
 
 function deleteBet(counterId) {
