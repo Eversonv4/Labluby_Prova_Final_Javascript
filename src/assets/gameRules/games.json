@@ -2,14 +2,6 @@
   "min-cart-value": 30,
   "types": [
     {
-      "type": "Lotofácil",
-      "description": "Escolha 15 números para apostar na lotofácil. Você ganha acertando 11, 12, 13, 14 ou 15 números. São muitas chances de ganhar, e agora você joga de onde estiver!",
-      "range": 25,
-      "price": 2.5,
-      "max-number": 15,
-      "color": "#7F3992"
-    },
-    {
       "type": "Mega-Sena",
       "description": "Escolha 6 números dos 60 disponíveis na mega-sena. Ganhe com 6, 5 ou 4 acertos. São realizados dois sorteios semanais para você apostar e torcer para ficar milionário.",
       "range": 60,
@@ -24,6 +16,22 @@
       "price": 2,
       "max-number": 5,
       "color": "#F79C31"
+    },
+    {
+      "type": "Lotofácil",
+      "description": "Escolha 15 números para apostar na lotofácil. Você ganha acertando 11, 12, 13, 14 ou 15 números. São muitas chances de ganhar, e agora você joga de onde estiver!",
+      "range": 25,
+      "price": 2.5,
+      "max-number": 15,
+      "color": "#7F3992"
+    },
+    {
+      "type": "Mega-Luby",
+      "description": "Escolha 10 números para apostar e concorra à uma viagem para o vale do silício com tudo pago!",
+      "range": 50,
+      "price": 5,
+      "max-number": 10,
+      "color": "#f00"
     }
   ]
 }

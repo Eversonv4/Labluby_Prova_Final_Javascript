@@ -28,7 +28,8 @@ let saveLottery = document.querySelector('[data-js="save_action"]');
 
 
 let contentOnButtonNumber;
-var numbersSelected = [];
+let numbersSelected = [];
+let anotherVar;
 let totalAmountBets = [];
 let verificationTrue;
 let rangeBetType;
@@ -65,7 +66,7 @@ function startLottery(numberBetType) {
   }
 
   descriptionBet.innerHTML = json.types[numberBetType].description;
-  numbersSelected = []
+  numbersSelected = [];
   rangeBetType = numberBetType;
   allNumbersBet = json.types[numberBetType].range;
 
@@ -76,6 +77,8 @@ function startLottery(numberBetType) {
     numbersSelections.appendChild(buttonsNumber[indexButtonNumber])
     buttonsNumber[indexButtonNumber].onclick = () => numberFilter(indexButtonNumber, numberBetType);
   }
+
+  
 
   whichBetNum = numberBetType
   return whichBetNum
@@ -92,6 +95,8 @@ function numberFilter(choosedNumber, numberBetType) {
     numbersSelected.splice(indexRemovedFromBet, 1);
   }
 
+  isFullBet()
+
   addNumbers(choosedNumber, numberBetType)
   return verificationTrue
 }
@@ -99,20 +104,43 @@ function numberFilter(choosedNumber, numberBetType) {
 function addNumbers(choosedNumber, range) {
   if(!verificationTrue) {
     if(numbersSelected.length < json.types[range]["max-number"]) {
-        numbersSelected.push(` ${choosedNumber}`)
-        buttonsNumber[choosedNumber].style.backgroundColor = json.types[range].color;
+      numbersSelected.push(` ${choosedNumber}`)
+      buttonsNumber[choosedNumber].style.backgroundColor = json.types[range].color;
+      
     }
+  }
+  return numbersSelected;
+}
+
+function isFullBet() {
+  if(numbersSelected.length == json.types[whichBetNum]["max-number"]) {
+    alert("Você já selecionou a quantidade máxima de valores para sua aposta.")
+    updateList()
   }
 }
 
 btnCompleteGame.onclick = function() {
+  anotherVar = numbersSelected;
   startLottery(whichBetNum);
   let maxBet = json.types[rangeBetType]["max-number"]
-  let randomNumber
-  for(let counter = 0; numbersSelected.length < maxBet; counter++ ) {
+  let randomNumber;
+  var isTrue;
+
+  for(let counter = 0; anotherVar.length < maxBet; counter++ ) {
     randomNumber = Math.random() * (allNumbersBet - 1) + 1;
-    numberFilter(Math.round(randomNumber), rangeBetType)
+    randomNumber = Math.round(randomNumber)
+    
+    isTrue = anotherVar.every(function(item){
+      return item !== ` ${randomNumber}`
+    })
+    if(isTrue) {
+      anotherVar.push(` ${randomNumber}`)
+    }
   }
+
+  anotherVar.forEach(function(item){
+    numberFilter(Number(item), rangeBetType);
+  })
 }
 
 btnClearGame.onclick = function() {
@@ -128,7 +156,9 @@ btnAddToCart.onclick = function() {
   let priceBet = (json.types[rangeBetType].price).toFixed(2)
   
   if(numbersSelected.length !== lengthBet) {
-    alert("Tá faltando número")
+    const numbersLeft = json.types[rangeBetType]["max-number"] - numbersSelected.length
+    const plu_singular = numbersLeft > 1 ? "números" : "número";
+    alert(`Falta escolher mais ${numbersLeft} ${plu_singular}`)
     return
   }
 
@@ -161,6 +191,7 @@ btnAddToCart.onclick = function() {
   updateList()
   numbersSelected = [];
   startLottery(whichBetNum);
+  anotherVar = []
 }
 
 saveLottery.onclick = function() {
@@ -179,6 +210,9 @@ function updateList() {
   totalAmountBets.forEach(function(item){
     containerListBets.innerHTML += `\n ${item}`;
   })
+  if(containerListBets.children.length === 0) {
+    containerListBets.innerHTML = `<h3 class="text_empty_cart">( Empty Cart )</h3>`;
+  }
 }
 
 function deleteBet(counterId) {
